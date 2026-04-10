@@ -152,3 +152,10 @@ optional_inputs:
 2. 对老 benchmark（MCQ、Y/N、VQA）增加 `metric_id` 显式声明，避免隐式逻辑分叉。
 3. 统一输出 schema：`sample -> field -> query -> task -> summary`。
 4. 把 `ALL/VALID` 双视图固化为标准报表字段。
+
+
+## 7. 公式库文件（建议新增）
+- 建议维护 `metric_formula_library.yaml` 作为“强约束层”。
+- 对可确定义指标（Acc/F1/IoU/ANLS 等）写明公式。
+- 对 Judge 型指标写明：评分区间、rubric 维度、失败策略。
+

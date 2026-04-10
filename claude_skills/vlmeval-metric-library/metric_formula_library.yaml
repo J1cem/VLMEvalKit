@@ -1,0 +1,69 @@
+version: 1
+formula_library:
+  accuracy:
+    expression: "sum(correct_i) / N"
+    sample_score: "correct_i in {0,1}"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  precision:
+    expression: "TP / (TP + FP)"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  recall:
+    expression: "TP / (TP + FN)"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  f1:
+    expression: "2 * precision * recall / (precision + recall)"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  exact_match:
+    expression: "1 if normalize(pred) == normalize(gt) else 0"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  anls:
+    expression: "max(0, 1 - levenshtein(pred, gt) / max(len(pred), len(gt)))"
+    threshold_note: "Doc/InfoVQA often uses threshold 0.5"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  relaxed_accuracy:
+    expression: "1 if abs(pred-gt)/abs(gt) <= 0.05 else 0 (numeric); else EM"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  jaccard_index:
+    expression: "|pred ∩ gt| / |pred ∪ gt|"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  set_precision:
+    expression: "|pred ∩ gt| / |pred|"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  bbox_iou:
+    expression: "area(intersection(pred_box, gt_box)) / area(union(pred_box, gt_box))"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  normalized_rmse:
+    expression: "sqrt(mean((pred-gt)^2)) / norm_factor"
+    range: [0.0, 1.0]
+    higher_is_better: false
+  query_weighted_mean:
+    expression: "sum(field_score_i * weight_i) / sum(weight_i)"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  macro_mean_score:
+    expression: "mean(task_mean_score_t)"
+    range: [0.0, 1.0]
+    higher_is_better: true
+  micro_mean_score:
+    expression: "sum(all_query_scores) / total_queries"
+    range: [0.0, 1.0]
+    higher_is_better: true
+
+fallback_policy:
+  missing_formula_behavior:
+    - "If metric exists in code registry, extract formula from implementation and append here"
+    - "If no deterministic formula exists (LLM-as-a-judge), define score range, rubric fields, and failure policy"
+  invalid_score:
+    sentinel: -1
+    include_in_all: true
+    include_in_valid: false
