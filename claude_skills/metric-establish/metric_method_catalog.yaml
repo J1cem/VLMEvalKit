@@ -1,62 +1,58 @@
-version: 1
+version: 2
 catalog_type: metric_method_catalog
+bundle: vlmevalkit_builtin
 
 metrics:
   accuracy:
     method_type: closed_form
     method_definition: "sum(correct_i) / N"
+    source_locator: "file:vlmeval/dataset/utils/multiple_choice.py#report_acc"
     range: [0.0, 1.0]
     direction: higher_is_better
   precision:
     method_type: closed_form
     method_definition: "TP / (TP + FP)"
+    source_locator: "file:vlmeval/dataset/utils/yorn.py#POPE_rating"
     range: [0.0, 1.0]
     direction: higher_is_better
   recall:
     method_type: closed_form
     method_definition: "TP / (TP + FN)"
+    source_locator: "file:vlmeval/dataset/utils/yorn.py#POPE_rating"
     range: [0.0, 1.0]
     direction: higher_is_better
   f1:
     method_type: closed_form
     method_definition: "2 * precision * recall / (precision + recall)"
+    source_locator: "file:vlmeval/dataset/utils/yorn.py#POPE_rating"
     range: [0.0, 1.0]
     direction: higher_is_better
   exact_match:
-    method_type: closed_form
-    method_definition: "1 if normalize(pred) == normalize(gt) else 0"
+    method_type: algorithmic
+    method_definition: "normalize(pred) and compare with processed gt"
+    source_locator: "file:vlmeval/dataset/utils/vqa_eval.py#process_line"
     range: [0.0, 1.0]
     direction: higher_is_better
   anls:
     method_type: closed_form
-    method_definition: "max(0, 1 - levenshtein(pred, gt)/max(len(pred),len(gt)))"
-    range: [0.0, 1.0]
-    direction: higher_is_better
-  relaxed_accuracy:
-    method_type: closed_form
-    method_definition: "numeric: 1 if abs(pred-gt)/abs(gt)<=0.05 else 0; text: exact_match"
+    method_definition: "1 - levenshtein(pred, gt)/max(len(pred),len(gt)) with thresholding by task"
+    source_locator: "file:vlmeval/dataset/utils/vqa_eval.py#anls_compute"
     range: [0.0, 1.0]
     direction: higher_is_better
   bbox_iou:
     method_type: closed_form
     method_definition: "area(intersection(pred_box, gt_box))/area(union(pred_box, gt_box))"
+    source_locator: "file:vlmeval/dataset/utils/megabench/scoring/common/metrics.py#calculate_iou"
     range: [0.0, 1.0]
     direction: higher_is_better
   llm_judge_score:
     method_type: rubric
     method_definition: "Define rubric dimensions + score scale + parser + fail fallback"
+    source_locator: "file:vlmeval/dataset/utils/megabench/metric_type.py#VLM_AS_JUDGE"
     required_fields: [rubric_dimensions, score_scale, parser_rule, failure_policy]
     direction: higher_is_better
 
-binding_contract:
-  source_locator_required: true
-  locator_format_examples:
-    - "python:package.module:function_name"
-    - "file:relative/path.py#symbol"
-
 fallback_policy:
-  missing_method:
-    action: "extract_from_library_or_mark_pending"
   invalid_score:
     sentinel: -1
     include_in_all: true

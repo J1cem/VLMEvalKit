@@ -1,14 +1,11 @@
-version: 2
-scenario: metric_establish
+version: 3
+scenario: metric_establish_bundled
+metric_source: built_in_bundle
 
 scoring_rules:
   sample_level:
     score_range: [0.0, 1.0]
     failure_score: -1.0
-    rules:
-      - discrete_correctness: "correct ? 1 : 0"
-      - similarity_metric: "if already normalized, use directly"
-      - distance_metric: "map distance to similarity when needed"
 
   field_level:
     enabled: true
@@ -38,4 +35,4 @@ scoring_rules:
 
 compliance:
   require_method_catalog: true
-  require_metric_binding_to_source_locator: true
+  require_source_locator: true

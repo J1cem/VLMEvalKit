@@ -1,69 +1,77 @@
-version: 3
-scenario: metric_establish
-reuse_policy: direct_reuse_from_library
+version: 4
+scenario: metric_establish_bundled
+reuse_policy: use_built_in_metric_bundle
 
 capability_metric_map:
   mcq_reasoning:
     primary:
       - metric_id: accuracy
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/multiple_choice.py#report_acc"
     secondary:
       - metric_id: macro_accuracy
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/multiple_choice.py#report_acc_MMT"
 
   yes_no_classification:
     primary:
       - metric_id: accuracy
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/yorn.py#default_rating"
       - metric_id: f1
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/yorn.py#POPE_rating"
     secondary:
       - metric_id: precision
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/yorn.py#POPE_rating"
       - metric_id: recall
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/yorn.py#POPE_rating"
 
   open_qa_short_answer:
     primary:
       - metric_id: exact_match
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/vqa_eval.py#process_line"
     secondary:
       - metric_id: anls
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/vqa_eval.py#anls_compute"
+
+  table_qa:
+    primary:
+      - metric_id: denotation_accuracy
+        source_locator: "file:vlmeval/dataset/utils/tablevqabench.py#evaluate_wtq"
+    secondary:
+      - metric_id: relieved_accuracy
+        source_locator: "file:vlmeval/dataset/utils/tablevqabench.py#evaluate_fintabnet"
 
   structured_extraction:
     primary:
       - metric_id: dict_equality
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/megabench/metric_type.py#DICT_EQUALITY"
     secondary:
       - metric_id: dict_jaccard_agg_jaccard
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/megabench/metric_type.py#DICT_JACCARD_AGG_JACCARD"
 
   spatial_grounding:
     primary:
       - metric_id: bbox_iou
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/megabench/scoring/common/metrics.py#calculate_iou"
     secondary:
       - metric_id: point_distance
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/megabench/scoring/common/metrics.py#point_distance"
 
   image_generation:
     primary:
       - metric_id: fid
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/SArena/metrics.py#InternSVGMetrics"
     secondary:
-      - metric_id: clip_score
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+      - metric_id: clip_score_t2i
+        source_locator: "file:vlmeval/dataset/utils/SArena/metrics.py#InternSVGMetrics"
       - metric_id: lpips
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/SArena/metrics.py#InternSVGMetrics"
 
   video_generation:
     primary:
       - metric_id: fvd
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+        source_locator: "file:vlmeval/dataset/utils/SArena/video/video_metrics.py#InternSVGVideoMetrics"
     secondary:
-      - metric_id: viclip
-        source_locator: "TBD_FROM_LIBRARY_ROOT"
+      - metric_id: viclip_t2v
+        source_locator: "file:vlmeval/dataset/utils/SArena/video/video_metrics.py#InternSVGVideoMetrics"
 
 validation:
   require_source_locator_for_all_metrics: true
