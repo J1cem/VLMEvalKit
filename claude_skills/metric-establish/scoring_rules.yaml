@@ -1,0 +1,41 @@
+version: 2
+scenario: metric_establish
+
+scoring_rules:
+  sample_level:
+    score_range: [0.0, 1.0]
+    failure_score: -1.0
+    rules:
+      - discrete_correctness: "correct ? 1 : 0"
+      - similarity_metric: "if already normalized, use directly"
+      - distance_metric: "map distance to similarity when needed"
+
+  field_level:
+    enabled: true
+    default_weight: 1.0
+    formula: "field_scores[field]"
+
+  query_level:
+    aggregator: weighted_mean
+    formula: "sum(field_score_i * weight_i) / sum(weight_i)"
+    invalid_policy:
+      ignore_negative_scores: true
+      if_all_invalid: -1.0
+
+  task_level:
+    query_aggregator: mean
+    outputs: [task_score_sum, mean_task_score]
+
+  summary_level:
+    outputs: [macro_mean_score, micro_mean_score, num_tasks, num_queries]
+
+  reporting_views: [ALL, VALID]
+
+  failure_policy:
+    parse_error: -1.0
+    judge_unavailable: -1.0
+    missing_prediction: -1.0
+
+compliance:
+  require_method_catalog: true
+  require_metric_binding_to_source_locator: true

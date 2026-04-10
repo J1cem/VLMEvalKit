@@ -1,0 +1,70 @@
+version: 3
+scenario: metric_establish
+reuse_policy: direct_reuse_from_library
+
+capability_metric_map:
+  mcq_reasoning:
+    primary:
+      - metric_id: accuracy
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+    secondary:
+      - metric_id: macro_accuracy
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+
+  yes_no_classification:
+    primary:
+      - metric_id: accuracy
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+      - metric_id: f1
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+    secondary:
+      - metric_id: precision
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+      - metric_id: recall
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+
+  open_qa_short_answer:
+    primary:
+      - metric_id: exact_match
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+    secondary:
+      - metric_id: anls
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+
+  structured_extraction:
+    primary:
+      - metric_id: dict_equality
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+    secondary:
+      - metric_id: dict_jaccard_agg_jaccard
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+
+  spatial_grounding:
+    primary:
+      - metric_id: bbox_iou
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+    secondary:
+      - metric_id: point_distance
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+
+  image_generation:
+    primary:
+      - metric_id: fid
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+    secondary:
+      - metric_id: clip_score
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+      - metric_id: lpips
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+
+  video_generation:
+    primary:
+      - metric_id: fvd
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+    secondary:
+      - metric_id: viclip
+        source_locator: "TBD_FROM_LIBRARY_ROOT"
+
+validation:
+  require_source_locator_for_all_metrics: true
+  require_primary_metric_per_capability: true
