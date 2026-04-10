@@ -1,0 +1,50 @@
+version: 2
+library: portable
+notes:
+  - "This mapping is repository-agnostic."
+  - "Bind real implementations through adapter.metric_bindings."
+
+capability_metric_map:
+  mcq_reasoning:
+    primary: [accuracy]
+    secondary: [macro_accuracy]
+  yes_no_classification:
+    primary: [accuracy, f1]
+    secondary: [precision, recall]
+  open_qa_short_answer:
+    primary: [exact_match, vqa_score]
+    secondary: [anls, near_str_match]
+  doc_ocr_qa:
+    primary: [anls]
+    secondary: [relaxed_accuracy]
+  table_qa:
+    primary: [denotation_accuracy]
+    secondary: [exact_match, relaxed_accuracy]
+  structured_extraction:
+    primary: [dict_equality]
+    secondary: [dict_jaccard_agg_jaccard, dict_exact_str_match_agg_recall]
+  set_prediction:
+    primary: [set_equality]
+    secondary: [jaccard_index, set_precision]
+  spatial_grounding:
+    primary: [bbox_iou]
+    secondary: [point_in_bbox, point_distance]
+  sequence_planning:
+    primary: [sequence_equality]
+    secondary: [sequence_accuracy_case_insensitive, longest_common_list_prefix_ratio]
+  code_or_symbolic_execution:
+    primary: [program_judge]
+    secondary: [constrained_generation, symbolic_planning_test]
+  image_generation:
+    primary: [fid, clip_score_t2i]
+    secondary: [dino_score, lpips, ssim, psnr]
+  video_generation:
+    primary: [fvd, viclip_t2v]
+    secondary: [dino_video, lpips_video, ssim_video, psnr_video]
+
+adapter:
+  metric_bindings:
+    # metric_id -> implementation locator in target repository
+    # Example:
+    # accuracy: "my_project.metrics.classification:accuracy"
+    # anls: "my_project.metrics.ocr:anls"
