@@ -1,0 +1,110 @@
+version: 1
+library: VLMEvalKit
+capability_metric_map:
+  mcq_reasoning:
+    primary:
+      - accuracy
+    secondary:
+      - macro_accuracy
+    metric_sources:
+      - multiple_choice.report_acc
+  yes_no_classification:
+    primary:
+      - accuracy
+      - f1
+    secondary:
+      - precision
+      - recall
+    metric_sources:
+      - yorn.POPE_rating
+      - yorn.VSR_rating
+  open_qa_short_answer:
+    primary:
+      - vqa_score
+      - exact_match
+    secondary:
+      - anls
+      - near_str_match
+    metric_sources:
+      - vqa_eval.hit_calculate
+      - vqa_eval.anls_compute
+  doc_ocr_qa:
+    primary:
+      - anls
+    secondary:
+      - relaxed_accuracy
+    metric_sources:
+      - vqa_eval.hit_calculate
+      - vqa_eval.relaxed_correctness
+  table_qa:
+    primary:
+      - denotation_accuracy
+    secondary:
+      - exact_match
+      - relieved_accuracy
+    metric_sources:
+      - tablevqabench.evaluate_wtq
+      - tablevqabench.evaluate_fintabnet
+  structured_extraction:
+    primary:
+      - dict_equality
+    secondary:
+      - dict_jaccard_agg_jaccard
+      - dict_exact_str_match_agg_recall
+    metric_sources:
+      - megabench.metric_type
+  set_prediction:
+    primary:
+      - set_equality
+    secondary:
+      - jaccard_index
+      - set_precision
+    metric_sources:
+      - megabench.metric_type
+  spatial_grounding:
+    primary:
+      - bbox_iou
+    secondary:
+      - point_in_bbox
+      - point_distance
+    metric_sources:
+      - megabench.scoring.common.metrics.calculate_iou
+      - megabench.metric_type
+  sequence_planning:
+    primary:
+      - sequence_equality
+    secondary:
+      - sequence_accuracy_case_insensitive
+      - longest_common_list_prefix_ratio
+    metric_sources:
+      - megabench.metric_type
+  code_or_symbolic_execution:
+    primary:
+      - program_judge
+    secondary:
+      - constrained_generation
+      - symbolic_planning_test
+    metric_sources:
+      - megabench.metric_type
+  image_generation:
+    primary:
+      - fid
+      - clip_score_t2i
+    secondary:
+      - dino_score
+      - lpips
+      - ssim
+      - psnr
+    metric_sources:
+      - SArena.metrics.InternSVGMetrics
+  video_generation:
+    primary:
+      - fvd
+      - viclip_t2v
+    secondary:
+      - dino_video
+      - lpips_video
+      - ssim_video
+      - psnr_video
+    metric_sources:
+      - SArena.video.video_metrics.InternSVGVideoMetrics
